@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!-- Root element with necessary namespaces for Thymeleaf and layout decorators. -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/defaultTemplate}">
+
+<head>
+	<!-- Character set for the document -->
+	<meta charset="UTF-8">
+	<!-- Ensuring correct display in Internet Explorer -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!-- Setting viewport for responsive design -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Dynamic title for the page, defaults to "Edit Customer" -->
+	<title th:text="${title}">Edit Customer</title>
+</head>
+
+<body>
+	<!-- Setting the page title variable -->
+	<th:block th:with="pageTitle='Edit Customer'"></th:block>
+
+	<!-- Header section for editing customer details -->
+	<div th:fragment="customHeader">
+		<h1>Edit Customer Details</h1>
+	</div>
+
+	<!-- Main content wrapper -->
+	<div layout:fragment="content">
+		<!-- Styled container for the edit form -->
+		<div
+			style="max-width: 500px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
+			<!-- Form to submit customer edits, populates with the customer data -->
+			<form th:action="@{/customers/edit/{customer_id}(customer_id=${customer.customer_id})}" th:object="${customer}" method="post">
+
+				<!-- Hidden input to store the customer's' ID -->
+				<input type="hidden" th:field="*{customer_id}" />
+
+				<!-- Input field for customer's' first name -->
+				<div style="margin-bottom: 20px;">
+					<label for="first_name" style="display: block; margin-bottom: 8px;">First Name:</label>
+					<input type="text" id="first_name" th:field="*{first_name}" placeholder="E.g. John"
+						style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+					<!-- Error message for customer's first name -->
+					<span th:if="${#fields.hasErrors('first_name')}" th:errors="*{first_name}"
+						style="display: block; color: red; margin-top: 5px;"></span>
+				</div>
+				
+				<!-- Input field for customer's' last name -->
+				<div style="margin-bottom: 20px;">
+					<label for="last_name" style="display: block; margin-bottom: 8px;">Last Name:</label>
+					<input type="text" id="last_name" th:field="*{last_name}" placeholder="E.g. Doe"
+						style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+					<!-- Error message for customer's last name -->
+					<span th:if="${#fields.hasErrors('last_name')}" th:errors="*{last_name}"
+						style="display: block; color: red; margin-top: 5px;"></span>
+				</div>
+
+				<!-- Input field for customer's email -->
+				<div style="margin-bottom: 20px;">
+					<label for="email" style="display: block; margin-bottom: 8px;">Email:</label>
+					<input type="email" id="email" th:field="*{email}" placeholder="johndoe@example.com"
+						style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+					<!-- Error message for customer's email -->
+					<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+						style="display: block; color: red; margin-top: 5px;"></span>
+				</div>
+
+	
+	
+				<!-- Input field for customer's phone -->
+				<div style="margin-bottom: 20px;">
+					<label for="phone" style="display: block; margin-bottom: 8px;">Phone:</label>
+					<input type="text" id="phone" th:field="*{phone}" placeholder="123456789"
+						style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+					<!-- Error message for customer's phone -->
+					<span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"
+						style="display: block; color: red; margin-top: 5px;"></span>
+				</div>
+				
+				<!-- Input field for customer's address -->
+				<div style="margin-bottom: 20px;">
+					<label for="address" style="display: block; margin-bottom: 8px;">Address:</label>
+					<input type="text" id="address" th:field="*{address}" placeholder="E.g. Doe"
+						style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+					<!-- Error message for customer's address -->
+					<span th:if="${#fields.hasErrors('address')}" th:errors="*{address}"
+						style="display: block; color: red; margin-top: 5px;"></span>
+				</div>
+
+
+				
+				<!-- Submit button to update customer details -->
+				<div style="text-align: center; margin-top: 20px;">
+					<input type="submit" value="Update Customer"
+						style="padding: 10px 15px; border: none; background-color: #016b18; color: white; cursor: pointer; border-radius: 4px;">
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+
+
+</html>

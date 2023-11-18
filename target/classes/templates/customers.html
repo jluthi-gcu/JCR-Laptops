@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<!-- The root HTML element with necessary namespaces for Thymeleaf and layout decorators. -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/defaultTemplate}">
+
+<head>
+	<!-- Basic meta tags for character encoding and browser compatibility -->
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<!-- Meta tag for responsive design -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Dynamic page title with Thymeleaf -->
+	<title th:text="${title}">Placeholder Title</title>
+
+	<!-- Styles for the page elements -->
+	<style>
+		/* Styles for the navy-colored buttons */
+		.action-button {
+			display: inline-block;
+			padding: 10px 15px;
+			border: none;
+			background-color: #016b18;
+			color: white;
+			cursor: pointer;
+			border-radius: 4px;
+			text-decoration: none;
+			text-align: center;
+		}
+
+		/* Hover, focus, active, and visited styles for the navy button */
+		.action-button :hover,
+		.action-button:focus,
+		.action-button:active {
+			text-decoration: none;
+			color: white;
+			background-color: #016b18;
+		}
+
+		.action-button:visited {
+			color: white;
+		}
+
+		/* Styling for the table */
+		table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		/* Styling for table headers */
+		th {
+			text-align: center;
+			font-weight: bold;
+			padding: 10px 15px;
+		}
+
+		/* Styling for table data */
+		td {
+			text-align: center;
+			padding: 10px 15px;
+			border-top: 1px solid #e0e0e0;
+		}
+
+		/* Alternate row background colors for better distinction */
+		tbody tr:nth-child(odd) {
+			background-color: #f7f7f7;
+		}
+
+		
+
+
+		/* Fire orange button styling */
+		.fire-orange-button {
+			display: inline-block;
+			padding: 5px 10px;
+			border: none;
+			background-color: #FF4500;
+			color: white;
+			cursor: pointer;
+			border-radius: 4px;
+			text-decoration: none;
+			text-align: center;
+			margin-bottom: 3px;
+		}
+
+		.fire-orange-button:hover,
+		.fire-orange-button:focus,
+		.fire-orange-button:active {
+			text-decoration: none;
+			color: white;
+			background-color: #FF6347;
+		}
+
+		.fire-orange-button:visited {
+			color: white;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Thymeleaf block to set page title variable -->
+	<th:block th:with="pageTitle='Customers'"></th:block>
+
+	<!-- Custom header for the customer list page -->
+	<div th:fragment="customHeader">
+		<h1>Customers</h1>
+	</div>
+
+	<!-- Main content section -->
+	<div layout:fragment="content" style="padding-bottom: 50px;">
+		<!-- Header for the customer table -->
+		<div th:fragment="customersHeader">
+			<h1>Customer List</h1>
+		</div>
+
+		<!-- Error message display, shown conditionally with Thymeleaf -->
+		<div th:if="${errorMessage}" class="alert alert-danger" style="text-align: center; margin-bottom: 20px;">
+			<p th:text="${errorMessage}"></p>
+		</div>
+
+		<!-- Table displaying customers -->
+		<table style="width:80%; margin-left:auto; margin-right:auto;">
+			<thead>
+				<tr>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Email</th>
+					<th>Phone</th>
+					<th>Address</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- Placeholder row if no customers are available -->
+				<tr th:if="${customers.empty}">
+					<td colspan="5">No Customers Available</td>
+				</tr>
+
+				<div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: center;">
+					<!-- Form Start -->
+					<form th:action="@{/customers/}" method="get">
+						<!-- Label -->
+						<label for="sortOption" style="margin-right: 10px;">Sort by:</label>
+		
+						<!-- Dropdown -->
+						<select id="sortOption" name="sortOption"
+							style="padding: 10px; border-radius: 4px; margin-right: 10px; border: 1px solid #016b18; color: #016b18;">
+							<option value="first_name" th:selected="${sortOption == 'first_name'}">First Name</option>
+							<option value="last_name" th:selected="${sortOption == 'last_name'}">Last Name</option>
+						</select>
+		
+						<!-- Sort Button -->
+						<input type="submit" value="Sort" class="action-button">
+					</form>
+				</div>
+		
+
+
+				<!-- Loop through each customer and display their info -->
+				<tr th:each="customer : ${customers}">
+					<td th:text="${customer.first_name}"></td>
+					<td th:text="${customer.last_name}"></td>
+					<td th:text="${customer.email}"></td>
+					<td th:text="${customer.phone}"></td>
+					<td th:text="${customer.address}"></td>
+					<td>
+						<!-- Edit and Delete buttons with confirm dialog for deletion -->
+						<a href="#" th:href="@{/customers/edit/{customer_id}(customer_id=${customer.customer_id})}"
+							class="fire-orange-button">Edit</a>
+						<a href="#" th:href="@{/customers/delete/{customer_id}(customer_id=${customer.customer_id})}" class="fire-orange-button"
+							th:onclick="return confirm('Are you sure you want to delete this customer?');">Delete</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<!-- Button to navigate to the "Add New Customer" page -->
+		<div style="text-align: center; margin-top: 20px;">
+			<a href="#" th:href="@{/customers/create}" class="action-button">Add New Customer</a>
+		</div>
+	</div>
+</body>
+
+</html>

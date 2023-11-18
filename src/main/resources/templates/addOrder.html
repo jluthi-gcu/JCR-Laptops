@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!-- Root element with necessary namespaces for Thymeleaf and layout decorators. -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/defaultTemplate}">
+
+<head>
+	<!-- Set the document's character encoding to UTF-8 for proper interpretation of special characters. -->
+	<meta charset="UTF-8">
+
+	<!-- Ensures the page is displayed in edge mode for Internet Explorer (highest mode available to the version). -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<!-- Ensures the page is rendered properly on mobile and other small screen devices. -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Title of the page. It's dynamically set using Thymeleaf, with a fallback to "Placeholder Title". -->
+	<title th:text="${title}">Placeholder Title</title>
+
+	
+</head>
+
+<body>
+
+	<th:block th:with="pageTitle='Place Order'"></th:block>
+
+	<!-- A custom header for the Create Workout page. -->
+	<div th:fragment="customHeader">
+		<h1>Place Order</h1>
+	</div>
+
+	<div layout:fragment="content">
+		<!-- Displaying the error message if it exists -->
+		<div th:if="${errorMessage}" class="alert alert-danger" style="text-align: center; margin-bottom: 20px;">
+			<p th:text="${errorMessage}"></p>
+		</div>
+
+		<!-- Form to Place an Order -->
+		<div
+			style="max-width: 500px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
+			<form th:action="@{/orders/create}" method="post" style="max-width: 600px; margin: 0 auto;">
+
+
+				<!-- Dropdown for selecting customer -->
+				<div class="form-group">
+					<label for="customer_id">Customer:</label>
+					<select id="customer_id" name="customer.customer_id" class="form-control">
+						<option th:each="customer : ${customers}" th:value="${customer.customer_id}"
+							th:text="${customer.toString}">
+						</option>
+					</select>
+				</div>
+
+
+				<!-- Dropdown for selecting product -->
+				<div class="form-group">
+					<label for="product_id">Laptop:</label>
+					<select id="product_id" name="product.product_id" class="form-control">
+						<option th:each="product : ${products}" th:value="${product.product_id}"
+							th:text="${product.toString}">
+						</option>
+					</select>
+				</div>
+
+
+
+
+				<!-- Field to input the quantity -->
+				<div class="form-group">
+					<label for="quantity">Quantity:</label>
+					<input type="number" id="quantity" name="quantity" placeholder="5" class="form-control">
+				</div>
+			
+			
+
+				<!-- Submit button for the form. -->
+				<div style="text-align: center; margin-top: 20px;">
+					<input type="submit" value="Place Order"
+						style="padding: 10px 15px; border: none; background-color: #016b18;; color: white; cursor: pointer; border-radius: 4px;">
+				</div>
+			</form>
+		</div>
+</body>
+
+</html>

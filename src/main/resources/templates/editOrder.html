@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/defaultTemplate}">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title th:text="${title}">Edit Scheduled Workout</title>
+
+</head>
+
+<body>
+	<!-- Set a page title using Thymeleaf -->
+	<th:block th:with="pageTitle='Edit Scheduled Workout'"></th:block>
+
+	<!-- Header section for the edit page -->
+	<div th:fragment="customHeader">
+		<h1>Edit Scheduled Workout Details</h1>
+	</div>
+
+	<!-- Main content of the page -->
+	<div layout:fragment="content">
+		<div
+			style="max-width: 500px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
+
+			<!-- Form to edit the order details. It posts the data to the given URL with the order's ID. -->
+			<form th:action="@{/orders/edit/{order_id}(order_id=${order.order_id})}"
+				th:object="${order}" method="post">
+
+				<!-- Hidden input field to store the scheduled workout's ID -->
+				<input type="hidden" th:field="*{order_id}" />
+
+				<!-- Dropdown for selecting customer -->
+				<div style="margin-bottom: 20px;">
+					<label for="customer" style="display: block; margin-bottom: 8px;">Customer:</label>
+					<select id="customer" th:field="*{customer.customer_id}"
+						style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+						<option th:each="customer : ${customers}" th:value="${customer.customer_id}"
+							th:text="${customer.first_name}">Customer Name</option>
+					</select>
+				</div>
+
+
+				<!-- Dropdown for selecting product -->
+				<div style="margin-bottom: 20px;">
+					<label for="product" style="display: block; margin-bottom: 8px;">Laptop:</label>
+					<select id="product" th:field="*{product.product_id}"
+						style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+						<option th:each="product : ${products}" th:value="${product.product_id}"
+							th:text="${product.name}">Laptop Name</option>
+					</select>
+				</div>
+
+			
+			
+
+				<!-- Field to input the quantity -->
+				<div class="form-group">
+					<label for="quantity">Quantity:</label>
+					<input type="number" id="quantity" name="quantity" placeholder="5" class="form-control">
+				</div>
+
+				<!-- Submit button for the form -->
+				<div style="text-align: center; margin-top: 20px;">
+					<input type="submit" value="Update Order"
+						style="padding: 10px 15px; border: none; background-color: #016b18;; color: white; cursor: pointer; border-radius: 4px;">
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+
+</html>

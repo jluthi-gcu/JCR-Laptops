@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!-- The root HTML element with necessary namespaces for Thymeleaf and layout decorators. -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/defaultTemplate}">
+
+<head>
+	<!-- Basic meta tags for character encoding and browser compatibility -->
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<!-- Meta tag to ensure proper rendering and touch zooming on mobile devices -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Title of the page, dynamically populated using Thymeleaf -->
+	<title th:text="${title}">Add New Customer</title>
+</head>
+
+<body>
+	<!-- A Thymeleaf block to set a variable value -->
+	<th:block th:with="pageTitle='Add New Customer'"></th:block>
+
+	<!-- Custom header for the page -->
+	<div th:fragment="customHeader">
+		<h1>Add New Customer</h1>
+	</div>
+
+	<!-- Main content of the page -->
+	<div layout:fragment="content">
+		<!-- A stylized form container -->
+		<div
+			style="max-width: 500px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
+
+			<!-- Form to add a new customer -->
+			<form th:action="@{/customers/}" th:object="${customer}" method="post">
+
+				<!-- Input field for customer's' first name -->
+				<div style="margin-bottom: 20px;">
+					<label for="first_name" style="display: block; margin-bottom: 8px;">First Name:</label>
+					<input type="text" id="first_name" th:field="*{first_name}" placeholder="E.g. John"
+						style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+					<!-- Error message for customer's first name -->
+					<span th:if="${#fields.hasErrors('first_name')}" th:errors="*{first_name}"
+						style="display: block; color: red; margin-top: 5px;"></span>
+				</div>
+				
+				<!-- Input field for customer's' last name -->
+				<div style="margin-bottom: 20px;">
+					<label for="last_name" style="display: block; margin-bottom: 8px;">Last Name:</label>
+					<input type="text" id="last_name" th:field="*{last_name}" placeholder="E.g. Doe"
+						style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+					<!-- Error message for customer's last name -->
+					<span th:if="${#fields.hasErrors('last_name')}" th:errors="*{last_name}"
+						style="display: block; color: red; margin-top: 5px;"></span>
+				</div>
+
+				<!-- Input field for customer's email -->
+				<div style="margin-bottom: 20px;">
+					<label for="email" style="display: block; margin-bottom: 8px;">Email:</label>
+					<input type="email" id="email" th:field="*{email}" placeholder="johndoe@example.com"
+						style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+					<!-- Error message for customer's email -->
+					<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+						style="display: block; color: red; margin-top: 5px;"></span>
+				</div>
+
+				<!-- Input field for customer's phone -->
+				<div style="margin-bottom: 20px;">
+					<label for="phone" style="display: block; margin-bottom: 8px;">Phone:</label>
+					<input type="text" id="phone" th:field="*{phone}" placeholder="123456789"
+						style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+					<!-- Error message for customer's phone -->
+					<span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"
+						style="display: block; color: red; margin-top: 5px;"></span>
+				</div>
+				
+				<!-- Input field for customer's address -->
+				<div style="margin-bottom: 20px;">
+					<label for="address" style="display: block; margin-bottom: 8px;">Address:</label>
+					<input type="text" id="address" th:field="*{address}" placeholder="E.g. Doe"
+						style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+					<!-- Error message for customer's address -->
+					<span th:if="${#fields.hasErrors('address')}" th:errors="*{address}"
+						style="display: block; color: red; margin-top: 5px;"></span>
+				</div>
+
+				<!-- Submit button to add a new customer -->
+				<div style="text-align: center; margin-top: 20px;">
+					<input type="submit" value="Add Customer"
+						style="padding: 10px 15px; border: none; background-color: #016b18; color: white; cursor: pointer; border-radius: 4px;">
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/defaultTemplate}">
+
+<head>
+
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title th:text="${title}">Placeholder Title</title>
+
+	<style>
+		.action-button {
+			display: inline-block;
+			padding: 10px 15px;
+			border: none;
+			background-color: #016b18;;
+			color: white;
+			cursor: pointer;
+			border-radius: 4px;
+			text-decoration: none;
+			text-align: center;
+		}
+
+		.action-button:hover,
+		.action-button:focus,
+		.action-button:active {
+			text-decoration: none;
+			color: white;
+			background-color: #016b18;
+		}
+
+		.action-button:visited {
+			color: white;
+		}
+
+		/* Styling for the table */
+		table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		/* Styling for table headers */
+		th {
+			text-align: center;
+			font-weight: bold;
+			padding: 10px 15px;
+		}
+
+		/* Styling for table data */
+		td {
+			text-align: center;
+			padding: 10px 15px;
+			border-top: 1px solid #e0e0e0;
+		}
+
+		/* Alternate row background colors for better distinction */
+		tbody tr:nth-child(odd) {
+			background-color: #f7f7f7;
+		}
+
+		/* Adjusting column widths */
+		th:nth-child(1),
+		td:nth-child(1) {
+			width: 10%;
+		}
+
+		th:nth-child(2),
+		td:nth-child(2) {
+			width: 25%;
+		}
+
+		th:nth-child(3),
+		td:nth-child(3) {
+			width: 30%;
+		}
+
+		th:nth-child(4),
+		td:nth-child(4) {
+			width: 5%;
+		}
+		
+		th:nth-child(5),
+		td:nth-child(5) {
+			width: 15%;
+		}
+		
+		th:nth-child(6),
+		td:nth-child(6) {
+			width: 15%;
+		}
+
+
+		/* Fire orange button styling */
+		.fire-orange-button {
+			display: inline-block;
+			padding: 5px 10px;
+			border: none;
+			background-color: #FF4500;
+			/* Fire orange color */
+			color: white;
+			cursor: pointer;
+			border-radius: 4px;
+			text-decoration: none;
+			text-align: center;
+			margin-bottom: 3px;
+		}
+
+		.fire-orange-button:hover,
+		.fire-orange-button:focus,
+		.fire-orange-button:active {
+			text-decoration: none;
+			color: white;
+			background-color: #FF6347;
+		}
+
+		.fire-orange-button:visited {
+			color: white;
+		}
+	</style>
+</head>
+
+<body>
+
+	<th:block th:with="pageTitle='Orders'"></th:block>
+
+	<div th:fragment="customHeader">
+		<h1>Orders</h1>
+	</div>
+
+	<div layout:fragment="content" style="padding-bottom: 50px;">
+
+		<div th:fragment="orderHeader">
+			<h1>Placed Orders</h1>
+		</div>
+
+		<div th:if="${errorMessage}" class="alert alert-danger" style="text-align: center; margin-bottom: 20px;">
+			<p th:text="${errorMessage}"></p>
+		</div>
+
+
+
+		<!-- Table to display the list of orders -->
+		<table style="width:80%; margin-left:auto; margin-right:auto;">
+
+			<thead>
+				<tr>
+					<th style="text-align: center;">Order Id</th>
+					<th style="text-align: center;">Customer Name</th>
+					<th style="text-align: center;">Laptop</th>
+					<th style="text-align: center;">Quantity</th>
+					<th style="text-align: center;">Order Date</th>
+					<th style="text-align: center;"></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr th:if="${orders.empty}">
+					<td style="text-align: center;" colspan="6">No Placed Orders</td>
+				</tr>
+				<tr th:each="order : ${orders}">
+					<td th:text="${order.order_id}"></td>
+					<td th:text="${order.customer.getFullName}"></td>
+					<td th:text="${order.product.name}"></td>
+					<td th:text="${order.quantity}"></td>
+					<td th:text="${order.getOrder_date_formatted}"></td>
+					<td>
+						<a href="#" th:href="@{/orders/edit/{order_id}(order_id=${order.order_id})}"
+							class="fire-orange-button">Edit</a>
+						<a href="#" th:href="@{/orders/delete/{order_id}(order_id=${order.order_id})}"
+							class="fire-orange-button"
+							th:onclick="return confirm('Are you sure you want to delete this order?');">Delete</a>
+					</td>
+				</tr>
+			</tbody>
+
+		</table>
+
+		<!-- Action button to place new order. -->
+		<div style="text-align: center; margin-top: 20px;">
+			<a href="#" th:href="@{/orders/create}" class="action-button">Place New Order</a>
+		</div>
+	</div>
+
+</body>
+
+</html>

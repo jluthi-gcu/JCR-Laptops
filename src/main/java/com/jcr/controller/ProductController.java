@@ -52,10 +52,10 @@ public class ProductController {
 	 * @return The template name for displaying all products.
 	 */
 	@GetMapping
-	public String getAllCustomers(Model model, @RequestParam(value = "sortOption", required = false) String sortOption) {
+	public String getAllProducts(Model model, @RequestParam(value = "sortOption", required = false) String sortOption) {
 		
 		//Log
-		logger.info("Entering ProductController.getAllCustomers()");
+		logger.info("Entering ProductController.getAllProducts()");
 		
 		List<ProductModel> products = productService.getAllProducts();
 		
@@ -76,7 +76,7 @@ public class ProductController {
 		model.addAttribute("title", "Your Laptops");
 		
 		//Log
-		logger.info("Exiting ProductController.getAllCustomers()");
+		logger.info("Exiting ProductController.getAllProducts()");
 		
 		return "products"; // Template is named "products.html"
 	}
